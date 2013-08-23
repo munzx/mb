@@ -1,0 +1,23 @@
+label {
+	padding: 2px;
+}
+
+.custom {
+	margin-right: 5px;
+}
+
+#box {
+	height: 40px; 
+}
+
+.theBG {
+	background-color: #efefef;
+}
+
+.orange {
+	background-color: #c3c533;
+}
+
+.blue {
+	background-color: #575757;
+}
