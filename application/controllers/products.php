@@ -4,11 +4,14 @@
 /**
 * Products
 */
-class Products extends CI_Controller
+class products extends CI_Controller
 {
 	
-	function index()
+	public function index()
 	{
 		$this->load->view('products');
 	}
+
+
+
 }

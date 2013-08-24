@@ -9,7 +9,7 @@
         <div class="twelve columns">
 
             <h5 for='mb.brand_name'>What is your <i>Brand</i> name?</h5>
-            <input ng-model='mbtest' id='mbtest' name='mbtest' type='text'>
+            <input id='mb.brand_name' name='mb.brand_name' type='text'>
 
             <h5>How do you see your products?</h5>
             <fieldset>

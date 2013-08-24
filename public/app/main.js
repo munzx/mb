@@ -1,6 +1,7 @@
+//Initiate the App
 var moheera = angular.module('moheera',[]);
 
-
+//The routing configurations
 moheera.config(function ($routeProvider) {
 	$routeProvider
 		.when('/',{
@@ -15,6 +16,10 @@ moheera.config(function ($routeProvider) {
 			controller : "done",
 			templateUrl : "index.php/done"
 		})
+		.when('/mb',{
+			controller : "base",
+			templateUrl : 'inedx.php/mb'
+		})
 		.otherwise({
 			redirectTo : '/'
 		})
@@ -25,6 +30,7 @@ moheera.config(function ($routeProvider) {
 moheera.factory('allProduct',function () {
 	factory = {};
 
+	//The user products list
 	factory.productsList = [];
 
 	return factory;
@@ -39,8 +45,14 @@ moheera.factory('allProduct',function () {
 moheera.controller('base',function ($scope,$http,$location) {
 	$scope.showProducts = function () {
 		//Route to the 'products' page
-		alert($('#mb').serialize());
-		$location.path('products');
+		$http.post('mb',$('#mb').serialize())
+			.success(function () {
+				$location.path('products');
+			})
+			.error(function () {
+				alert('kindly , fill up all of the form fields');
+			})
+		//$location.path('products');
 	};
 });
 
@@ -64,7 +76,13 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 
 	$scope.submitProducts = function () {
 		//Route to the 'donr' page
-		$location.path('done');
+		$http.post('mb',allProduct.productsList)
+			.success(function () {
+				$location.path('done');
+			})
+			.error(function () {
+				alert('Kindly , fill up all of the form fields');
+			});
 	}
 
 	$scope.displayProductsList = allProduct.productsList;
