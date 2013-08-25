@@ -2,9 +2,15 @@
 
 	<div class="ten columns centered">
 		<div style='padding:10px;'>
-			<h2>Thank you</h2>
-			<p>We will contact you shortly Insha'a aLLAH</p>
-			<a href="https://www.moheera.com">Home</a>
+			<?=  $message; ?>
+			<p><?= $heart; ?></p>
+			
+			<?php print_r($productsList);  ?>
+			<hr />
+			<?php print_r($mb); ?>
+
+			<hr />
+			<a href="https://www.moheera.com" style='font-size:20px;'>Home</a>
 
 		</div>
 	</div>

@@ -16,9 +16,9 @@ moheera.config(function ($routeProvider) {
 			controller : "done",
 			templateUrl : "index.php/done"
 		})
-		.when('/mb',{
+		.when('/manage/:param',{
 			controller : "base",
-			templateUrl : 'inedx.php/mb'
+			templateUrl : 'inedx.php/manage'
 		})
 		.otherwise({
 			redirectTo : '/'
@@ -45,7 +45,7 @@ moheera.factory('allProduct',function () {
 moheera.controller('base',function ($scope,$http,$location) {
 	$scope.showProducts = function () {
 		//Route to the 'products' page
-		$http.post('mb',$('#mb').serialize())
+		$http.post('manage/mbcheck',$('#mb').serialize())
 			.success(function () {
 				$location.path('products');
 			})
@@ -67,7 +67,7 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 			"pDesc" : $scope.product_desc
 		});
 
-		//Empty the add product form values
+		//Empty the "add product" form values
 		$scope.product_name = '';
 		$scope.productsList = '';
 		$scope.product_desc = '';
@@ -76,7 +76,7 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 
 	$scope.submitProducts = function () {
 		//Route to the 'donr' page
-		$http.post('mb',allProduct.productsList)
+		$http.post('manage/productscheck',allProduct.productsList)
 			.success(function () {
 				$location.path('done');
 			})

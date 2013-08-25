@@ -33,7 +33,7 @@
 
 		<div class='row'>
 			<div class='ten columns centered'>
-				<img src="public/img/logo.png" style='margin : 10px 2px;'>
+				<a href="/mb"><img src="public/img/logo.png" style='margin : 10px 2px;'></a>
 			</div>
 		</div>
 
