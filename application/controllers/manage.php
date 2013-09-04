@@ -42,12 +42,11 @@ class manage extends CI_Controller
 
 		$_SESSION['productsList'] = $jsonData;
 
-
 		//Get the user email
-		$userEmail = $_SESSION['mb']->email;
+		$userEmail = $_SESSION['mb']->theData->email;
 
 		//The message to be sent to the admin
-		$adminMessage = $this->_MessageEditor($_SESSION['mb']);
+		$adminMessage = $this->_MessageEditor($_SESSION['mb']->theData);
 
 		//Send email to the user
 		$this->_CustomerEmail($userEmail);
@@ -119,7 +118,28 @@ class manage extends CI_Controller
 			Name : ".$json->firstName.",
 			Last name : ".$json->lastName.",
 			Email : ".$json->email.",
-			Brand : ".$json->Brand.",
+			Brand : ".$json->brand.",
+			gender : ".$json->gender."
+			age : ".$json->age."
+			price : ".$json->price."
+			style : ".$json->style."
+			Emirates : ".$json->emirates."
+			GCC : ".$json->gcc."
+			Arabs : ".$json->arabs."
+			Asians : ".$json->asians."
+			European : ".$json->european."
+			African : ".$json->african."
+			Latino : ".$json->latino."
+			option1 : ".$json->option1."
+			option2 : ".$json->option2."
+			option3 : ".$json->option3."
+			option4 : ".$json->option4."
+			option5 : ".$json->option5."
+			option6 : ".$json->option6."
+			Other Objectives : ".$json->otherObjectives."
+			Value Proposition : ".$json->valueProposition."
+			Competetion : ".$json->competetion."
+
 		";
 
 		return $view;
@@ -134,7 +154,7 @@ class manage extends CI_Controller
 		$this->email->to($userEmail);
 		$this->email->bcc('munzir.suliman@moheera.com');
 
-		$this->email->subject('Moheera subscritption application!');
+		$this->email->subject('Thanks for applying!');
 		$this->email->message('Thank you , You are awesome and so we will contact you shortly Insha Allah');
 
 		$this->email->send();
@@ -149,7 +169,7 @@ class manage extends CI_Controller
 		$this->email->to('dr.makki.salah@moheera.com');
 		$this->email->bcc('munzir.suliman@moheera.com');
 
-		$this->email->subject('Subscritption application!');
+		$this->email->subject('New Subscritption Application!');
 		$this->email->message($msg);
 
 		$this->email->send();
@@ -162,19 +182,3 @@ class manage extends CI_Controller
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

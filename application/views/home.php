@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="twelve columns orange">
-            <h2 style='color : #ffffff;'>Marketing Brief</h2>
+            <h2 style='color : #575757;'>Marketing Brief</h2>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        <button ng-disabled='mb.$invalid'; ng-click='showProducts()' class='button'>Next</button>
+        <button ng-disabled='mb.$invalid'; ng-click='showProducts()' style='color:#575757;' class='button'>Next</button>
     </form>
 
     <div style='margin-bottom:10px;'></div>

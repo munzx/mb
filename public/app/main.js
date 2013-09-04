@@ -16,6 +16,7 @@ moheera.config(function ($routeProvider) {
 			controller : "done",
 			templateUrl : "index.php/done"
 		})
+		//the param is there to accept REST
 		.when('/manage/:param',{
 			controller : "base",
 			templateUrl : 'inedx.php/manage'
@@ -26,12 +27,12 @@ moheera.config(function ($routeProvider) {
 
 });
 
-//Factory
+//=========================================== Factory ============================================//
 moheera.factory('mbData',function () {
 
 	var factory = {};
 
-	factory.theData = [];
+	factory.theData = {};
 
 	return factory;
 
@@ -49,15 +50,45 @@ moheera.factory('allProduct',function () {
 });
 
 
-//controllers
+//=========================================== controllers ========================================
 
 //The controller to be called when loging to the home page
 moheera.controller('base',function ($scope,$http,$location,mbData) {
 
+	//Save the form fields values that the user has entered in case he went back to the page
+
+	//the oprions and radio button values are not working!!!!
+	$scope.firstName = mbData.theData.firstName;
+	$scope.lastName = mbData.theData.lastName;
+	$scope.email = mbData.theData.email;
+	$scope.brand = mbData.theData.brand;
+	$scope.gender = mbData.theData.gender;
+	$scope.age = mbData.theData.age;
+	$scope.price = mbData.theData.price;
+	$scope.style = mbData.theData.style;
+	$scope.emirates = mbData.theData.emirates;
+	$scope.gcc = mbData.theData.gcc;
+	$scope.arab = mbData.theData.arab;
+	$scope.asian = mbData.theData.asian;
+	$scope.european = mbData.theData.european;
+	$scope.african = mbData.theData.african;
+	$scope.latino = mbData.theData.latino;
+	$scope.option1 = mbData.theData.option1;
+	$scope.option2 = mbData.theData.option2;
+	$scope.option3 = mbData.theData.option3;
+	$scope.option4 = mbData.theData.option4;
+	$scope.option5 = mbData.theData.option5;
+	$scope.option6 = mbData.theData.option6;
+	$scope.otherObjectives = mbData.theData.otherObjectives;
+	$scope.valueProposition = mbData.theData.valueProposition;
+	$scope.competetion = mbData.theData.competetion;
+
+
+
 	$scope.showProducts = function () {
 
 		//the mb data
-		mbData.theData.push({
+		mbData.theData = {
 			"firstName" : $scope.firstName,
 			"lastName" : $scope.lastName,
 			"email" : $scope.email,
@@ -66,25 +97,24 @@ moheera.controller('base',function ($scope,$http,$location,mbData) {
 			"age" : $scope.age,
 			"price" : $scope.price,
 			"style" : $scope.style,
-			"mb.target_customer1" : $scope.emirates,
-			"mb.target_customer2" : $scope.gcc,
-			"mb.target_customer3" : $scope.arab,
-			"mb.target_customer4" : $scope.asian,
-			"mb.target_customer5" : $scope.european,
-			"mb.target_customer6" : $scope.african,
-			"mb.target_customer7" : $scope.latino,
-			"mb.objectives_1" : $scope.option1,
-			"mb.objectives_2" : $scope.option2,
-			"mb.objectives_3" : $scope.option3,
-			"mb.objectives_4" : $scope.option4,
-			"mb.objectives_5" : $scope.option5,
-			"mb.objectives_6" : $scope.option6,
+			"emirates" : $scope.emirates,
+			"gcc" : $scope.gcc,
+			"arab" : $scope.arab,
+			"asian" : $scope.asian,
+			"european" : $scope.european,
+			"mafrican" : $scope.african,
+			"latino" : $scope.latino,
+			"option1" : $scope.option1,
+			"option2" : $scope.option2,
+			"option3" : $scope.option3,
+			"option4" : $scope.option4,
+			"option5" : $scope.option5,
+			"option6" : $scope.option6,
 			"otherObjectives" : $scope.otherObjectives,
 			"valueProposition" : $scope.valueProposition,
 			"competetion" : $scope.competetion
 
-		});
-
+		};
 
 		//Route to the 'products' page
 		$http.post('manage/mbcheck',mbData)
@@ -93,14 +123,8 @@ moheera.controller('base',function ($scope,$http,$location,mbData) {
 			})
 			.error(function () {
 				alert('kindly , fill up all of the form fields');
-			})
-		//$location.path('products');
+			});
 	}
-
-	$scope.mbForm = function () {
-		
-	}
-
 
 });
 
@@ -110,11 +134,13 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 
 	//Add a product to the 'allProducts' factory
 	$scope.addProduct = function () {
-		allProduct.productsList.push({
-			"pName" : $scope.product_name,
-			"pCat" : $scope.product_category,
-			"pDesc" : $scope.product_desc
-		});
+		if ($scope.product_name && $scope.product_category && $scope.product_desc){
+			allProduct.productsList.push({
+				"pName" : $scope.product_name,
+				"pCat" : $scope.product_category,
+				"pDesc" : $scope.product_desc
+			});
+		};
 
 		//Empty the "add product" form values
 		$scope.product_name = '';
@@ -123,6 +149,7 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 
 	}
 
+	//Submit the products page then show either the done page or an error message depends on the response
 	$scope.submitProducts = function () {
 		//Route to the 'donr' page
 		$http.post('manage/productscheck',allProduct.productsList)
