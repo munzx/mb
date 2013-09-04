@@ -27,6 +27,17 @@ moheera.config(function ($routeProvider) {
 });
 
 //Factory
+moheera.factory('mbData',function () {
+
+	var factory = {};
+
+	factory.theData = [];
+
+	return factory;
+
+});
+
+
 moheera.factory('allProduct',function () {
 	factory = {};
 
@@ -38,14 +49,45 @@ moheera.factory('allProduct',function () {
 });
 
 
-
 //controllers
 
 //The controller to be called when loging to the home page
-moheera.controller('base',function ($scope,$http,$location) {
+moheera.controller('base',function ($scope,$http,$location,mbData) {
+
 	$scope.showProducts = function () {
+
+		//the mb data
+		mbData.theData.push({
+			"firstName" : $scope.firstName,
+			"lastName" : $scope.lastName,
+			"email" : $scope.email,
+			"brand" : $scope.brand,
+			"gender" : $scope.gender,
+			"age" : $scope.age,
+			"price" : $scope.price,
+			"style" : $scope.style,
+			"mb.target_customer1" : $scope.emirates,
+			"mb.target_customer2" : $scope.gcc,
+			"mb.target_customer3" : $scope.arab,
+			"mb.target_customer4" : $scope.asian,
+			"mb.target_customer5" : $scope.european,
+			"mb.target_customer6" : $scope.african,
+			"mb.target_customer7" : $scope.latino,
+			"mb.objectives_1" : $scope.option1,
+			"mb.objectives_2" : $scope.option2,
+			"mb.objectives_3" : $scope.option3,
+			"mb.objectives_4" : $scope.option4,
+			"mb.objectives_5" : $scope.option5,
+			"mb.objectives_6" : $scope.option6,
+			"otherObjectives" : $scope.otherObjectives,
+			"valueProposition" : $scope.valueProposition,
+			"competetion" : $scope.competetion
+
+		});
+
+
 		//Route to the 'products' page
-		$http.post('manage/mbcheck',$('#mb').serialize())
+		$http.post('manage/mbcheck',mbData)
 			.success(function () {
 				$location.path('products');
 			})
@@ -53,8 +95,15 @@ moheera.controller('base',function ($scope,$http,$location) {
 				alert('kindly , fill up all of the form fields');
 			})
 		//$location.path('products');
-	};
+	}
+
+	$scope.mbForm = function () {
+		
+	}
+
+
 });
+
 
 //The products page controller
 moheera.controller('products',function ($scope,$http,$location,allProduct) {
@@ -93,8 +142,3 @@ moheera.controller('products',function ($scope,$http,$location,allProduct) {
 moheera.controller('done',function ($scope,$http,$location) {
 	
 });
-
-
-
-
-

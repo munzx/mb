@@ -21,3 +21,14 @@ label {
 .blue {
 	background-color: #575757;
 }
+
+
+/** Show different colours when an error occurs in the form mb **/
+
+#mb input.ng-invalid.ng-dirty {
+background-color: #FA787E;
+}
+
+#mb input.ng-valid.ng-dirty {
+background-color: #78FA89;
+}

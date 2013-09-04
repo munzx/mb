@@ -19,7 +19,7 @@ class done extends CI_Controller
 		} 
 			else 
 		{
-			$data['message'] = '<h2>Thank you , You are awesome!</h2><p>We will contact you shortly</p>';
+			$data['message'] = '<h2>Thank you , You are awesome!</h2><p>We will contact you shortly!</p>';
 			$data['heart'] = '<img src="public/img/heart.png" />';
 
 			$data['productsList'] = $_SESSION['productsList'];

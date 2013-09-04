@@ -9,30 +9,17 @@ class manage extends CI_Controller
 	//Check the marketing breif form fields and respond
 	public function mbcheck()
 	{	
-
-		session_start();
+		$this->_IsSessionStarted();
 		$_SESSION['user'] = 'user';
 
 		//Get the "mb" form data
-		$formData = trim(file_get_contents('php://input'));
+		$formData = json_decode( trim(file_get_contents('php://input')) );
 
 		//The form controller "Just for testing"
 		$formCheck = true;
 
-		//Explode the recieved form fields by the "&" sign
-		$dataArray = explode('&', $formData);
-
-
-		//Seperate the above exploded form fields by the "=" sign
-		for ($i=0; $i < sizeof($dataArray); $i++)
-		{ 
-			$AB = explode('=', $dataArray[$i]);
-			$formElements[$AB[0]] = $AB[1];
-		}
-
-
 		//Load the form elements
-		$_SESSION['mb'] = $formElements;
+		$_SESSION['mb'] = $formData;
 
 		$this->_ResponseStatus($formCheck);
 	}
@@ -41,26 +28,32 @@ class manage extends CI_Controller
 	//Check the products and respond
 	public function productscheck()
 	{
-
 		//Did the user come from the "mb" home page
 		$this->_Access();
 
-
 		//Get the products data
-		$jsonData = json_decode( trim( file_get_contents( 'php://input' ) ) );
+		$jsonData = json_decode( trim( file_get_contents( 'php://input' )) );
 
 		//Just for testing
 		$productsFormCheck = true;
 
 		//Store data in a session
-		session_start();
+		$this->_IsSessionStarted();
+
 		$_SESSION['productsList'] = $jsonData;
 
 
+		//Get the user email
+		$userEmail = $_SESSION['mb']->email;
+
+		//Send email to the user
+		$this->_CustomerEmail($userEmail);
+
+		//Send email to the admin
+		$this->_AdminEmail();		
+
 		//The response
 		$this->_ResponseStatus($productsFormCheck);
-
-		//echo $jsonData[1]->pName;
 	}
 
 
@@ -72,9 +65,9 @@ class manage extends CI_Controller
 		//Just for testing
 		$doneCheck = true;
 
-
 		//The response
 		$this->_ResponseStatus($doneCheck);
+		session_destroy();
 
 	}
 
@@ -98,14 +91,75 @@ class manage extends CI_Controller
 
 	private function _Access()
 	{
+		$this->_IsSessionStarted();
+
 		//Here we will check if the user is going by the supposed order Insha'a Allah
-		session_start();
 		if( !isset($_SESSION['user'])){
 			$this->_ResponseStatus(false);
 		}
+		return true;
+	}
+
+	private function _IsSessionStarted()
+	{
+		if(!session_id())
+		{
+			session_start();
+		}
+
+		return true;
+	}
+
+	//The email to be sent to the user upon successful application
+	private function _CustomerEmail($userEmail)
+	{
+
+		$this->load->library('email');
+		$this->email->from('info@moheera.com');
+		$this->email->to($userEmail);
+		$this->email->bcc('munzir.suliman@moheera.com');
+
+		$this->email->subject('Moheera subscritption application!');
+		$this->email->message('Thank you , You are awesome and so we will contact you shortly Insha Allah');
+
+		$this->email->send();
+		echo 'the email debugger'.$this->email->print_debugger();
+	}
+
+	//The email to be sent to the user upon successful application
+	private function _AdminEmail()
+	{
+		$this->load->library('email');
+		$this->email->from('info@moheera.com');
+		$this->email->to('dr.makki.salah@moheera.com');
+		$this->email->bcc('munzir.suliman@moheera.com');
+
+		$this->email->subject('Subscritption application!');
+		$this->email->message('You have one more successful subscritption application');
+
+		$this->email->send();
+		echo 'the email debugger'.$this->email->print_debugger();
 	}
 
 
 
 
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
