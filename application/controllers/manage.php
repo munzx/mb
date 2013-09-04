@@ -46,11 +46,14 @@ class manage extends CI_Controller
 		//Get the user email
 		$userEmail = $_SESSION['mb']->email;
 
+		//The message to be sent to the admin
+		$adminMessage = $this->_MessageEditor($_SESSION['mb']);
+
 		//Send email to the user
 		$this->_CustomerEmail($userEmail);
 
 		//Send email to the admin
-		$this->_AdminEmail();		
+		$this->_AdminEmail($adminMessage);		
 
 		//The response
 		$this->_ResponseStatus($productsFormCheck);
@@ -110,6 +113,18 @@ class manage extends CI_Controller
 		return true;
 	}
 
+	private function _MessageEditor($json)
+	{
+		$view = "
+			Name : ".$json->firstName.",
+			Last name : ".$json->lastName.",
+			Email : ".$json->email.",
+			Brand : ".$json->Brand.",
+		";
+
+		return $view;
+	}
+
 	//The email to be sent to the user upon successful application
 	private function _CustomerEmail($userEmail)
 	{
@@ -127,7 +142,7 @@ class manage extends CI_Controller
 	}
 
 	//The email to be sent to the user upon successful application
-	private function _AdminEmail()
+	private function _AdminEmail($msg)
 	{
 		$this->load->library('email');
 		$this->email->from('info@moheera.com');
@@ -135,7 +150,7 @@ class manage extends CI_Controller
 		$this->email->bcc('munzir.suliman@moheera.com');
 
 		$this->email->subject('Subscritption application!');
-		$this->email->message('You have one more successful subscritption application');
+		$this->email->message($msg);
 
 		$this->email->send();
 		echo 'the email debugger'.$this->email->print_debugger();
